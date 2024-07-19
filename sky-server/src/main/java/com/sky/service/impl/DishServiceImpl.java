@@ -160,4 +160,20 @@ public class DishServiceImpl implements DishService {
                 .build();
         return dishMapper.list(dish);
     }
+
+
+    /**
+     * 菜品起售禁售
+     * @param status
+     * @param id
+     */
+    public void startOrStop(Integer status, Long id) {
+        //TODO 套餐起售时，包含的菜品不能禁售
+
+        Dish dish=Dish.builder()
+                .id(id)
+                .status(status)
+                .build();
+        dishMapper.update(dish);
+    }
 }
