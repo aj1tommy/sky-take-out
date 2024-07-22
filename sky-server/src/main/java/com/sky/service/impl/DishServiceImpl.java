@@ -21,6 +21,7 @@ import com.sky.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,9 @@ public class DishServiceImpl implements DishService {
 
     @Autowired
     private SetmealMapper setmealMapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 新增菜品和相应的口味
@@ -192,6 +196,11 @@ public class DishServiceImpl implements DishService {
                             .id(setmealId)
                             .status(StatusConstant.DISABLE)
                             .build();
+                    if(setmealId!=null) {
+                        Setmeal setmeal1 = setmealMapper.getById(setmealId);
+                        //菜品停售时，包含菜品的套餐也停售了，但套餐还在redis中，用户端依旧能显示停售的套餐,删除停售的套餐缓存
+                        redisTemplate.delete("setmealCache::" + setmeal1.getCategoryId());
+                    }
                     setmealMapper.update(setmeal);
                 }
             }

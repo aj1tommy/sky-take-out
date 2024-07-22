@@ -125,7 +125,7 @@ public class DishController {
     }
 
     /**
-     * 清理缓存数据 在修改、新增、起售停售、
+     * 清理缓存数据 在修改、新增、起售停售、删除中使用
      * @param pattern
      */
     private void cleanCache(String pattern){
