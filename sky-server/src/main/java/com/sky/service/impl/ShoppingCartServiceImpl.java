@@ -64,10 +64,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 shoppingCart.setAmount(setmeal.getPrice());
                 shoppingCart.setImage(setmeal.getImage());
             }
+            shoppingCart.setNumber(1);
+            shoppingCart.setCreateTime(LocalDateTime.now());
+            shoppingCartMapper.insert(shoppingCart);
         }
-        shoppingCart.setNumber(1);
-        shoppingCart.setCreateTime(LocalDateTime.now());
-        shoppingCartMapper.insert(shoppingCart);
     }
 
     /**
